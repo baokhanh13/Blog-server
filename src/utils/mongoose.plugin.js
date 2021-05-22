@@ -1,5 +1,5 @@
 /* eslint-disable no-param-reassign */
-const paginate = schema => {
+const paginate = (schema) => {
 	/**
 	 * @typedef {Object} QueryResult
 	 * @property {Document[]} results - Results found
@@ -23,7 +23,7 @@ const paginate = schema => {
 		let sort = '';
 		if (options.sortBy) {
 			const sortingCriteria = [];
-			options.sortBy.split(',').forEach(sortOption => {
+			options.sortBy.split(',').forEach((sortOption) => {
 				const [key, order] = sortOption.split(':');
 				sortingCriteria.push((order === 'desc' ? '-' : '') + key);
 			});
@@ -40,7 +40,7 @@ const paginate = schema => {
 		let docsPromise = this.find(filter).sort(sort).skip(skip).limit(limit);
 
 		if (options.populate) {
-			options.populate.split(',').forEach(populateOption => {
+			options.populate.split(',').forEach((populateOption) => {
 				docsPromise = docsPromise.populate(
 					populateOption
 						.split('.')
@@ -52,7 +52,7 @@ const paginate = schema => {
 
 		docsPromise = docsPromise.exec();
 
-		return Promise.all([countPromise, docsPromise]).then(values => {
+		return Promise.all([countPromise, docsPromise]).then((values) => {
 			const [totalResults, results] = values;
 			const totalPages = Math.ceil(totalResults / limit);
 			const result = {
@@ -82,7 +82,7 @@ const deleteAtPath = (obj, path, index) => {
 	deleteAtPath(obj[path[index]], path, index + 1);
 };
 
-const toJSON = schema => {
+const toJSON = (schema) => {
 	let transform;
 	if (schema.options.toJSON && schema.options.toJSON.transform) {
 		transform = schema.options.toJSON.transform;
@@ -91,7 +91,7 @@ const toJSON = schema => {
 	schema.options.toJSON = Object.assign(schema.options.toJSON || {}, {
 		// eslint-disable-next-line consistent-return
 		transform(doc, ret, options) {
-			Object.keys(schema.paths).forEach(path => {
+			Object.keys(schema.paths).forEach((path) => {
 				if (schema.paths[path].options && schema.paths[path].options.private) {
 					deleteAtPath(ret, path.split('.'), 0);
 				}

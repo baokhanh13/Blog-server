@@ -40,7 +40,13 @@ const errorHandler = (err, req, res, next) => {
 const converter = (err, req, res, next) => {
 	let convertedError = err;
 	if (err instanceof ValidationError) {
-		convertedError = new ApiError(err.statusCode, 'Validation Error');
+		const message = err.details
+			.map((e) => Object.values(e))
+			.reduce((acc, currentValue) => {
+				return acc.concat(currentValue);
+			}, [])
+			.join(',');
+		convertedError = new ApiError(err.statusCode, message);
 	} else if (!(err instanceof ApiError)) {
 		// unexpected error, log error
 		convertedError = new ApiError(err.status, err.message, false, err.stack);

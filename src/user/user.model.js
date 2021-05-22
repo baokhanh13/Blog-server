@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const validator = require('validator');
 const bcrypt = require('bcryptjs');
-const { toJson, paginate } = require('../utils/mongoose.plugin');
+const { toJSON, paginate } = require('../utils/mongoose.plugin');
 const roles = require('../config/roles');
 
 const userSchema = mongoose.Schema(
@@ -25,7 +25,7 @@ const userSchema = mongoose.Schema(
 		},
 		password: {
 			type: String,
-			rqeuired: true,
+			required: true,
 			trim: true,
 			minLength: 3,
 			private: true,
@@ -39,8 +39,16 @@ const userSchema = mongoose.Schema(
 	{ timestamps: true }
 );
 
-userSchema.plugin(toJson);
+userSchema.plugin(toJSON);
 userSchema.plugin(paginate);
+
+userSchema.pre('save', async function (next) {
+	const user = this;
+	if (user.isModified('password')) {
+		user.password = await bcrypt.hash(user.password, 10);
+	}
+	next();
+});
 
 userSchema.statics.isEmailTaken = async function (email) {
 	const user = await this.findOne({ email });
@@ -51,14 +59,6 @@ userSchema.methods.isPasswordMatch = async function (password) {
 	const user = this;
 	return bcrypt.compare(password, user.password);
 };
-
-userSchema.pre('save', async function (next) {
-	const user = this;
-	if (user.isModified('password')) {
-		user.password = bcrypt.hash(user.password, 8);
-	}
-	next();
-});
 
 const User = mongoose.model('User', userSchema);
 
