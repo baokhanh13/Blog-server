@@ -1,5 +1,7 @@
 # Blog-Server
 
+[![baokhanh13](https://circleci.com/gh/baokhanh13/Blog-server.svg?style=svg)](https://circleci.com/gh/circleci/circleci-docs)
+
 A project for building a RESTful API using Node.js, Express, and Mongoose follow [node-express-boilerplate](https://github.com/hagopj13/node-express-boilerplate).
 
 # Manual Installation
