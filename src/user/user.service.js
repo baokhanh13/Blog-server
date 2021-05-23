@@ -45,7 +45,7 @@ const getUserById = async (id) => {
  * @returns {Promise<User>}
  */
 const getUserByEmail = async (email) => {
-	return User.find({ email });
+	return User.findOne({ email });
 };
 
 /**
