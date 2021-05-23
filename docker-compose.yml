@@ -1,0 +1,25 @@
+version: '3.4'
+
+services:
+  server:
+    image: server
+    ports:
+      - 4000:4000
+    networks: 
+      - blog-app
+    depends_on: 
+      - mongo
+  mongo:
+    image: mongo:3.6.19-xenial
+    ports:
+      - 27017:27017
+    networks: 
+      - blog-app
+    volumes: 
+      - mongo-data:/data/db
+networks: 
+  blog-app:
+    driver: bridge
+volumes: 
+  mongo-data:
+    driver: local
