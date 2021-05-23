@@ -29,6 +29,11 @@ describe('Error middlewares', () => {
 			);
 		});
 
+		// test for circleci
+		test('should 1 + 1 equals 2', () => {
+			expect(1 + 1).toBe(3);
+		});
+
 		test('should convert an error without status to ApiError with status 500', () => {
 			const error = new Error('Any error');
 			const next = jest.fn();
