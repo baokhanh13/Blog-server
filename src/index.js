@@ -1,11 +1,9 @@
 const express = require('express');
 const morgan = require('morgan');
 const mongoose = require('mongoose');
-
 const config = require('./config/config');
 const logger = require('./config/logger');
 const { converter, notFound, errorHandler } = require('./utils/ApiError');
-const catchAsync = require('./utils/catchAsync');
 
 mongoose
 	.connect(config.mongoose.uri, config.mongoose.options)
@@ -18,14 +16,7 @@ app.use(morgan('combined'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
-app.get('/', (req, res) => res.json({ msg: 'Hello world ' }));
-
-app.get(
-	'/abc',
-	catchAsync(async (req, res) => {
-		throw new Error('Any error');
-	})
-);
+app.get('/', (req, res) => res.json({ msg: 'Hello world' }));
 
 app.use('/api/v1', require('./routes/v1'));
 

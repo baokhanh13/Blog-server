@@ -1,5 +1,5 @@
 const { Joi } = require('express-validation');
-const roles = require('../config/roles');
+const { roles } = require('../config/roles');
 const { objectId } = require('../utils/validate');
 
 /**
@@ -12,7 +12,7 @@ module.exports = {
 			email: Joi.string().email().required(),
 			password: Joi.string().min(3).required(),
 			name: Joi.string().required(),
-			role: Joi.string().required().valid(roles.user, roles.admin),
+			role: Joi.string().required().valid(roles[0], roles[1]),
 		}),
 	},
 	// GET /users
