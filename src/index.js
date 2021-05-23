@@ -5,13 +5,10 @@ const mongoose = require('mongoose');
 const config = require('./config/config');
 const logger = require('./config/logger');
 const { converter, notFound, errorHandler } = require('./utils/ApiError');
+const catchAsync = require('./utils/catchAsync');
 
 mongoose
-	.connect(config.dbUri, {
-		useCreateIndex: true,
-		useNewUrlParser: true,
-		useUnifiedTopology: true,
-	})
+	.connect(config.mongoose.uri, config.mongoose.options)
 	.then(() => logger.info('Connected to Mongodb'))
 	.catch((e) => logger.error(e));
 
@@ -22,6 +19,13 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
 app.get('/', (req, res) => res.json({ msg: 'Hello world ' }));
+
+app.get(
+	'/abc',
+	catchAsync(async (req, res) => {
+		throw new Error('Any error');
+	})
+);
 
 app.use('/api/v1', require('./routes/v1'));
 

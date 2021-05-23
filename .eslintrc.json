@@ -1,5 +1,9 @@
 {
-	"extends": ["airbnb", "plugin:node/recommended", "prettier"],
+	"env": {
+		"node": true,
+		"jest": true
+	},
+	"extends": ["airbnb", "plugin:jest/recommended", "plugin:node/recommended", "prettier"],
 	"plugins": ["prettier"],
 	"rules": {
 		"prettier/prettier": ["error"],
@@ -11,6 +15,7 @@
 		"class-methods-use-this": "off",
 		"arrow-body-style": "off",
 		"prefer-arrow-callback": "off",
-		"no-underscore-dangle": "off"
+		"no-underscore-dangle": "off",
+		"jest/expect-expect": "off"
 	}
 }
