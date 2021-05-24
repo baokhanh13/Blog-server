@@ -17,7 +17,21 @@ const login = catchAsync(async (req, res) => {
 	res.json({ user, tokens });
 });
 
+const refreshToken = catchAsync(async (req, res) => {
+	const { token } = req.body;
+	const tokens = await authService.refreshAuth(token);
+	res.json({ tokens });
+});
+
+const logout = catchAsync(async (req, res) => {
+	const { token } = req.body;
+	await authService.logout(token);
+	res.json({ msg: 'Logout successfully' });
+});
+
 module.exports = {
 	register,
 	login,
+	refreshToken,
+	logout,
 };

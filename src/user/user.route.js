@@ -1,8 +1,8 @@
 const express = require('express');
-const { validate } = require('../../utils/validate');
-const { createUser, getUsers, getUser, updateUser, deleteUser } = require('../../user/user.validation');
-const controller = require('../../user/user.controller');
-const auth = require('../../middlewares/auth');
+const { validate } = require('../utils/validate');
+const { createUser, getUsers, getUser, updateUser, deleteUser } = require('./user.validation');
+const controller = require('./user.controller');
+const auth = require('../middlewares/auth');
 
 const router = express.Router();
 
