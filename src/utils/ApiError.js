@@ -1,5 +1,6 @@
 const { ValidationError } = require('express-validation');
 const httpStatus = require('http-status');
+const { TokenExpiredError } = require('jsonwebtoken');
 const logger = require('../config/logger');
 
 /**
@@ -48,6 +49,8 @@ const converter = (err, req, res, next) => {
 			}, [])
 			.join(',');
 		error = new ApiError(err.statusCode, message);
+	} else if (err instanceof TokenExpiredError) {
+		error = new ApiError(httpStatus.BAD_REQUEST, err.message);
 	} else if (!(err instanceof ApiError)) {
 		// unexpected error, log error
 		const status = err.statusCode || httpStatus.INTERNAL_SERVER_ERROR;
